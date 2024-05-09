@@ -1,18 +1,4 @@
 <template>
-    <header>
-    <link rel="stylesheet" href="style.css">
-    <a href="http://localhost:5173/"><h1>MILI SHOP</h1></a>
-    <div></div>
-    <div></div>
-    <div id="div-log-in">
-        <a href="http://localhost:5173/"><img alt="login-icon" src="/icons8-log-in-30.png"></a>
-        <p>prijava</p>
-    </div>
-    <div id="div-cart">
-        <a><img alt="login-icon" src="/icons8-cart-30.png"></a>
-        <p>korpa</p>
-    </div>
-    </header>
     <div class="container">
         <form @submit.prevent="submitForm()" class="login-form">
           <h2>Login</h2>
@@ -25,10 +11,34 @@
           <label for="password">Lozinka:</label>
           <input v-model="data.password" type="password" id="password" name="password" required>
             </div>
-            <button type="submit">Registracija</button>
+            <button type="submit">Prijava</button>
         </form>
     </div>
 </template>
+
+<script setup>
+import { ref } from 'vue';
+import axios from 'axios';
+
+const data = ref({
+  username: '',
+  password: ''
+});
+
+async function submitForm(){
+  try {
+    const { data: token } = await axios.post('http://localhost:5104/api/Korisnik/Login', data.value);
+    localStorage.setItem('token', token);
+  } catch (e) {
+  }
+}
+
+
+
+
+
+
+</script>
 
 <style scoped>
 * {

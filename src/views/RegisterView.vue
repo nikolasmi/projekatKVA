@@ -1,17 +1,4 @@
 <template>
-  <header>
-    <a href="http://localhost:5173/"><h1>MILI SHOP</h1></a>
-    <div></div>
-    <div></div>
-    <div id="div-log-in">
-      <a href="http://localhost:5173/"><img alt="register-icon" src="/icons8-log-in-30.png"></a>
-      <p>prijava</p>
-    </div>
-    <div id="div-cart">
-      <a><img alt="register-icon" src="/icons8-cart-30.png"></a>
-      <p>korpa</p>
-    </div>
-  </header>
   <div class="container">
     <form @submit.prevent="submitForm()" class="registration-form">
       <h2>Registracija</h2>
