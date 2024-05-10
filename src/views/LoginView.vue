@@ -19,6 +19,9 @@
 <script setup>
 import { ref } from 'vue';
 import axios from 'axios';
+import { useRouter } from 'vue-router'
+
+const router = useRouter();
 
 const data = ref({
   username: '',
@@ -29,14 +32,14 @@ async function submitForm(){
   try {
     const { data: token } = await axios.post('http://localhost:5104/api/Korisnik/Login', data.value);
     localStorage.setItem('token', token);
+    
+    setTimeout(() => {
+          localStorage.removeItem('token');
+          router.push({ name: 'login' });
+        }, 60000);
   } catch (e) {
   }
 }
-
-
-
-
-
 
 </script>
 
