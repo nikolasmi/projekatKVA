@@ -13,7 +13,6 @@
   .container {
     max-width: 1200px;
     margin: 0 auto;
-    display: flex;
   }
 
   header {
@@ -95,7 +94,9 @@
 
   main {
     display: grid;
-    flex: 4;
+    /* flex: 3; */
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-gap: 24px;
     padding: 20px;
   }
 
@@ -135,7 +136,8 @@
   }
 
   .products {
-    display: grid;
+    display: flex;
+    flex-direction: row;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 20px;
   }
