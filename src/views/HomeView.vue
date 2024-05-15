@@ -3,29 +3,55 @@
     <div id="div-search">
         <input type="text" placeholder="Pretraga...">
         <button>Pretraži</button>
-      </div>
-    <aside>
-      <h2>Filteri</h2>
-      <!-- Dodajte filtere ovde -->
-    </aside>
-    <main>
-        <div class="product" v-for="item in items" :key="item.itemId">
-          <img :src="`/${item.picturePath}`" :alt="`${item.picturePath}`">
-          <h2>{{ item.name }}</h2>
-          <p>Opis proizvoda 1</p>
-          <p>Cena: {{ item.price }}</p>
-          <p>Veličina: {{ item.size }}</p>
-          <button>Kupi</button>
-        </div>
-        <!-- <div class='product'>
-          <img src="/majica1.jpg" alt="Proizvod 1">
-          <h2>Naziv proizvoda 1</h2>
-          <p>Opis proizvoda 1</p>
-          <p>Cena: $20</p>
-          <p>Veličina: M</p>
-          <button>Kupi</button>
-        </div> -->
-    </main>
+    </div>
+    <div id="shop-page">
+      <aside>
+        <h2>Filteri</h2>
+        <!-- Dodajte filtere ovde -->
+      </aside>
+      <main>
+          <!-- <div class="product" v-for="item in items" :key="item.itemId">
+            <img :src="`/${item.picturePath}`" :alt="`${item.picturePath}`">
+            <h2>{{ item.name }}</h2>
+            <p>Opis proizvoda 1</p>
+            <p>Cena: {{ item.price }}</p>
+            <p>Veličina: {{ item.size }}</p>
+            <button>Kupi</button>
+          </div> -->
+          <div class='product'>
+            <img src="/slika1.jpg" alt="Proizvod 1">
+            <h2>Naziv proizvoda 1</h2>
+            <p>Opis proizvoda 1</p>
+            <p>Cena: $20</p>
+            <p>Veličina: M</p>
+            <button>Kupi</button>
+          </div>
+          <div class='product'>
+            <img src="/slika1.jpg" alt="Proizvod 1">
+            <h2>Naziv proizvoda 1</h2>
+            <p>Opis proizvoda 1</p>
+            <p>Cena: $20</p>
+            <p>Veličina: M</p>
+            <button>Kupi</button>
+          </div>
+          <div class='product'>
+            <img src="/slika1.jpg" alt="Proizvod 1">
+            <h2>Naziv proizvoda 1</h2>
+            <p>Opis proizvoda 1</p>
+            <p>Cena: $20</p>
+            <p>Veličina: M</p>
+            <button>Kupi</button>
+          </div>
+          <div class='product'>
+            <img src="/slika1.jpg" alt="Proizvod 1">
+            <h2>Naziv proizvoda 1</h2>
+            <p>Opis proizvoda 1</p>
+            <p>Cena: $20</p>
+            <p>Veličina: M</p>
+            <button>Kupi</button>
+          </div>
+      </main>
+    </div>
   </div>
   <footer>
     <p>&copy; 2024 Mili Shop. Sva prava zadržana.</p>
