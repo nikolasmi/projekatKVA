@@ -78,7 +78,7 @@
         </form>
       </aside>
       <main>
-          <!-- <div class="product" v-for="item in items" :key="item.itemId">
+         <!-- <div class="product" v-for="item in Items" :key="item.itemId">
             <img :src="`/${item.picturePath}`" :alt="`${item.picturePath}`">
             <h2>{{ item.name }}</h2>
             <p>Opis proizvoda 1</p>
@@ -140,7 +140,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import axios from 'axios';
 import type { Item } from '@/types/Item';
 const items = ref<Item[]>([]);
@@ -155,30 +155,14 @@ const data = ref({
   picturePath: ''
 });
 
+
 (async () => {
   try {
     const { data: allItems } = await axios.get<Item[]>('http://localhost:5104/api/Item/GetItems');
     items.value = allItems
   } catch (e) {
   }
-})() //imidiatly envoke function
-// import { ref, onMounted } from 'vue';
-// import axios from 'axios';
-// import type { User } from '@/types/User';
-// const users = ref<User[]>([]);
-// const fetchUsers = async () => {
-//   try {
-//     const { data } = await axios.get<User[]>('https://localhost:7062/api/User/GetUsers');
-//     users.value = data; 
-//   } catch (error) {
-//     console.error('Error fetching users:', error);
-//   }
-// };
-
-// onMounted(() => {
-//   fetchUsers()
-// } 
-// );
+})() //imidiatly invoke function
 </script>
 
 <style scoped>
