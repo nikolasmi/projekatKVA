@@ -8,6 +8,74 @@
       <aside>
         <h2>Filteri</h2>
         <!-- Dodajte filtere ovde -->
+        <form id="filter-form">
+            <!-- Proizvođač Deo -->
+            <div class="filter-group">
+                <label>Proizvođač</label>
+                <div>
+                    <input type="checkbox" id="nike" name="proizvodjac" value="nike">
+                    <label for="nike">Nike</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="adidas" name="proizvodjac" value="adidas">
+                    <label for="adidas">Adidas</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="puma" name="proizvodjac" value="puma">
+                    <label for="puma">Puma</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="reebok" name="proizvodjac" value="reebok">
+                    <label for="reebok">Reebok</label>
+                </div>
+            </div>
+            
+            <!-- Veličina -->
+            <div class="filter-group">
+                <label>Veličina</label>
+                <div>
+                    <input type="checkbox" id="s" name="velicina" value="s">
+                    <label for="s">S</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="m" name="velicina" value="m">
+                    <label for="m">M</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="l" name="velicina" value="l">
+                    <label for="l">L</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="xl" name="velicina" value="xl">
+                    <label for="xl">XL</label>
+                </div>
+            </div>
+            
+            <!-- Proizvod -->
+            <div class="filter-group">
+                <label>Proizvod</label>
+                <div>
+                    <input type="checkbox" id="majica" name="proizvod" value="majica">
+                    <label for="majica">Majica</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="sorc" name="proizvod" value="sorc">
+                    <label for="sorc">Šorc</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="patike" name="proizvod" value="patike">
+                    <label for="patike">Patike</label>
+                </div>
+            </div>
+            
+            <!-- Cena -->
+            <div class="filter-group">
+                <label for="cena">Cena</label>
+                <input type="number" id="cena" name="cena" placeholder="Unesite maksimalnu cenu">
+            </div>
+            
+            <button type="submit">Primeni filtere</button>
+        </form>
       </aside>
       <main>
           <!-- <div class="product" v-for="item in items" :key="item.itemId">
@@ -50,12 +118,25 @@
             <p>Veličina: M</p>
             <button>Kupi</button>
           </div>
+          <div class='product'>
+            <img src="/slika1.jpg" alt="Proizvod 1">
+            <h2>Naziv proizvoda 1</h2>
+            <p>Opis proizvoda 1</p>
+            <p>Cena: $20</p>
+            <p>Veličina: M</p>
+            <button>Kupi</button>
+          </div>
+          <div class='product'>
+            <img src="/slika1.jpg" alt="Proizvod 1">
+            <h2>Naziv proizvoda 1</h2>
+            <p>Opis proizvoda 1</p>
+            <p>Cena: $20</p>
+            <p>Veličina: M</p>
+            <button>Kupi</button>
+          </div>
       </main>
     </div>
   </div>
-  <footer>
-    <p>&copy; 2024 Mili Shop. Sva prava zadržana.</p>
-  </footer>
 </template>
 
 <script setup lang="ts">
