@@ -1,46 +1,51 @@
 <template>
-    <div class="container">
-        <form @submit.prevent="submitForm()" class="login-form">
-          <h2>Login</h2>
-            
-          <div class="form-group">
-          <label for="username">Korisničko ime:</label>
-          <input v-model="data.username" type="text" id="username" name="username" required>
+  <div id="wraper">
+  <div class="container">
+      <form @submit.prevent="submitForm()" class="login-form">
+        <h2>Login</h2>
+          
+        <div class="form-group">
+        <label for="username">Korisničko ime:</label>
+        <input v-model="data.username" type="text" id="username" name="username" required>
+        </div>
+        <div class="form-group">
+        <label for="password">Lozinka:</label>
+        <input v-model="data.password" type="password" id="password" name="password" required>
           </div>
-          <div class="form-group">
-          <label for="password">Lozinka:</label>
-          <input v-model="data.password" type="password" id="password" name="password" required>
-            </div>
-            <button type="submit">Prijava</button>
-        </form>
-    </div>
+          <button type="submit">Prijava</button>
+      </form>
+  </div>
+</div>
 </template>
 
 <script setup>
 import { ref } from 'vue';
 import axios from 'axios';
-import { useRouter } from 'vue-router'
-
-const router = useRouter();
+import { useToast } from 'vue-toast-notification';
+import 'vue-toast-notification/dist/theme-sugar.css'; // Dodajte CSS temu
 
 const data = ref({
   username: '',
   password: ''
 });
 
-async function submitForm(){
+const toast = useToast();
+
+async function submitForm() {
   try {
     const { data: token } = await axios.post('http://localhost:5104/api/Korisnik/Login', data.value);
     localStorage.setItem('token', token);
     
     setTimeout(() => {
-          localStorage.removeItem('token');
-          router.push({ name: 'login' });
-        }, 60000);
-  } catch (e) {
+      localStorage.removeItem('token');
+      toast.error('Istekla sesija');
+    }, 60000);
+    
+    toast.success('Dobrodošli');
+  } catch (error) {
+    toast.error('Pogrešno korisničko ime ili lozinka');
   }
 }
-
 </script>
 
 <style scoped>
@@ -55,6 +60,9 @@ body {
     background-color: #f9f9f9;
   }
   
+#wraper{
+  height: 700px;
+}
 .container {
     max-width: 400px;
     margin: 50px auto;
@@ -106,7 +114,6 @@ body {
     text-align: center;
   }
   
-  
   .form-group {
     margin-bottom: 20px;
     margin-top: 15px;
@@ -118,9 +125,6 @@ body {
   }
   
   input[type="text"],
-  input[type="email"],
-  input[type="tel"],
-  input[type="number"],
   input[type="password"] {
     width: calc(100% - 16px);
     padding: 8px;
