@@ -144,6 +144,7 @@ import { computed, ref } from 'vue';
 import axios from 'axios';
 import type { Item } from '@/types/Item';
 const items = ref<Item[]>([]);
+const filteredItems = ref<Item[]>([]);
 
 const data = ref({
   name: '',
@@ -155,6 +156,28 @@ const data = ref({
   picturePath: ''
 });
 
+const filterData = ref({
+  manufacturer: '',
+  type: '',
+  size: '',
+  price: null,
+});
+
+// async function submitForm(){
+//   try {
+//     const { data: user } = await axios.post('http://localhost:5104/api/User/AddUser', data.value);
+//     console.log(user);
+//   } catch (e) {
+//   }
+// }
+
+// async function submitFilter(){
+//   try {
+//     const { filterData: filteredItems } = await axios.post('http://localhost:5104/api/User/AddUser', filterData.value);
+//     console.log(filteredItems);
+//   } catch (e) {
+//   }
+// }
 
 (async () => {
   try {
