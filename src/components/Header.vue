@@ -10,7 +10,7 @@
         <p>prijava</p>
     </div>
     <div id="div-cart">
-        <router-link to="/"><img alt="login-icon" src="/icons8-cart-30.png"></router-link>
+        <router-link to="/cart"><img alt="login-icon" src="/icons8-cart-30.png"></router-link>
         <p>korpa</p>
     </div>
     </header>

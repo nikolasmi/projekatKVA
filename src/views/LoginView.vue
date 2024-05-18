@@ -18,10 +18,12 @@
 </div>
 </template>
 
+
 <script setup>
 import { ref } from 'vue';
 import axios from 'axios';
 import { useToast } from 'vue-toast-notification';
+import router from '../router';
 import 'vue-toast-notification/dist/theme-sugar.css'; // Dodajte CSS temu
 
 const data = ref({
@@ -38,6 +40,7 @@ async function submitForm() {
     
     setTimeout(() => {
       localStorage.removeItem('token');
+      router.push({ name: 'login' });
       toast.error('Istekla sesija');
     }, 60000);
     

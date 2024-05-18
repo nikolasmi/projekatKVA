@@ -154,6 +154,7 @@
     grid-template-columns: repeat(3, minmax(0, 1fr));
     column-gap: 24px;
     padding: 20px;
+    width: 80%;
   }
 
   .product {
