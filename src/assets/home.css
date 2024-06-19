@@ -193,6 +193,13 @@
     background-color: #0056b3;
   }
 
+  .product #wish{
+    color: white;
+    margin-left: 5px;
+    border-radius: 4px;
+    
+  }
+
   .products {
     display: flex;
     flex-direction: row;
@@ -201,6 +208,7 @@
   }
 
   footer {
+    width: 100%;
     background-color: #333;
     color: #fff;
     padding: 20px;

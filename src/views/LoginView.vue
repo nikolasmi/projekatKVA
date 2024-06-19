@@ -3,7 +3,7 @@
   <div class="container">
       <form @submit.prevent="submitForm()" class="login-form">
         <h2>Login</h2>
-          
+        <p>ulogujte se kako biste videli listu zelja i korpu</p>
         <div class="form-group">
         <label for="username">Korisničko ime:</label>
         <input v-model="data.username" type="text" id="username" name="username" required>
@@ -11,7 +11,7 @@
         <div class="form-group">
         <label for="password">Lozinka:</label>
         <input v-model="data.password" type="password" id="password" name="password" required>
-          </div>
+    </div>
           <button type="submit">Prijava</button>
       </form>
   </div>
@@ -22,9 +22,8 @@
 <script setup>
 import { ref } from 'vue';
 import axios from 'axios';
-import { useToast } from 'vue-toast-notification';
 import router from '../router';
-import 'vue-toast-notification/dist/theme-sugar.css'; // Dodajte CSS temu
+import { useToast } from 'vue-toast-notification';
 
 const data = ref({
   username: '',
@@ -42,9 +41,10 @@ async function submitForm() {
       localStorage.removeItem('token');
       router.push({ name: 'login' });
       toast.error('Istekla sesija');
-    }, 60000);
+    }, 600000);
     
     toast.success('Dobrodošli');
+    router.push('/')
   } catch (error) {
     toast.error('Pogrešno korisničko ime ili lozinka');
   }
@@ -52,20 +52,6 @@ async function submitForm() {
 </script>
 
 <style scoped>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
-  }
-  
-#wraper{
-  height: 700px;
-}
 .container {
     max-width: 400px;
     margin: 50px auto;
@@ -74,44 +60,6 @@ body {
     background-color: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
-
-  header {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    background-color: #333;
-    color: #fff;
-    padding: 20px;
-    text-align: center;
-  }
-
-  header h1{
-    margin-top: auto;
-    margin-bottom: auto;
-  }
-
-  header a{
-    text-decoration: none;
-    color: #fff;
-  }
-
-  #div-log-in{
-    margin-top: auto;
-    margin-bottom: auto;
-  }
-
-  #div-login a, #div-login p{
-    cursor: pointer;
-  }
-
-  #div-cart{
-    margin-top: auto;
-    margin-bottom: auto;
-  }
-
-  #div-cart a, #div-cart p{
-    cursor: pointer;
-  } 
   
   .login-form {
     text-align: center;
@@ -120,6 +68,10 @@ body {
   .form-group {
     margin-bottom: 20px;
     margin-top: 15px;
+  }
+
+  p{
+    margin-top: 5px;
   }
   
   label {
@@ -144,7 +96,7 @@ body {
     cursor: pointer;
   }
   
-  button:hover {
-    background-color: #0056b3;
- }
+  button[type="submit"]:hover {
+    background-color: rgb(0,0,0);
+  }
 </style>

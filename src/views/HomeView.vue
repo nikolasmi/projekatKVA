@@ -1,8 +1,8 @@
 <template>
   <div class="container">
     <div id="div-search">
-        <input type="text" placeholder="Pretraga...">
-        <button>Pretraži</button>
+      <input type="text" placeholder="Pretraga..." v-model="searchTerm" @input="filterItems">
+      <button>Pretraži</button>
     </div>
     <div id="shop-page">
       <aside>
@@ -47,25 +47,24 @@
                 </div>
             </div>
             <div class="filter-group">
-                <label>Proizvod</label>
+                <label>Tip</label>
                 <div>
-                    <input type="checkbox" id="majica" name="proizvod" value="majica" v-model="filterData.type">
-                    <label for="majica">Majica</label>
+                    <input type="checkbox" id="majica" name="proizvod" value="casual" v-model="filterData.type">
+                    <label for="casual">Casual</label>
                 </div>
                 <div>
-                    <input type="checkbox" id="sorc" name="proizvod" value="sorc" v-model="filterData.type">
-                    <label for="sorc">Šorc</label>
+                    <input type="checkbox" id="sorc" name="proizvod" value="sport" v-model="filterData.type">
+                    <label for="sport">Sport</label>
                 </div>
-                <div>
+                <!-- <div>
                     <input type="checkbox" id="patike" name="proizvod" value="patike" v-model="filterData.type">
                     <label for="patike">Patike</label>
-                </div>
+                </div> -->
             </div>
             <div class="filter-group">
                 <label for="cena">Cena</label>
                 <input type="number" id="cena" name="cena" placeholder="Unesite maksimalnu cenu" v-model.number="filterData.price">
             </div>
-            
             <button type="submit">Primeni filtere</button>
         </form>
       </aside>
@@ -76,7 +75,9 @@
             <p>Opis proizvoda 1</p>
             <p>Cena: {{ item.price }}</p>
             <p>Veličina: {{ item.size }}</p>
-            <button>Kupi</button>
+            <button @click="addToCart(item.itemId)">Kupi</button>
+            <button id="wish" @click="addToWishlist(item.itemId)" v-show="!item.inWishList">★</button>
+            <button id="wish" @click="addToWishlist(item.itemId)" v-show="item.inWishList">Ukloni iz liste zelja</button>
           </div>
       </main>
     </div>
@@ -84,22 +85,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import axios from 'axios';
+import { ref } from 'vue';
+import axios, { AxiosError } from 'axios';
 import type { Item } from '@/types/Item';
+import { useToast } from 'vue-toast-notification';
+import 'vue-toast-notification/dist/theme-sugar.css';
+import type { Wish } from '@/types/Wish';
 
 const items = ref<Item[]>([]);
 const filteredItems = ref<Item[]>([]);
-
-const data = ref({
-  name: '',
-  type: '',
-  size: '',
-  manufacturer: '',
-  dateAdded: '',
-  price: null,
-  picturePath: ''
-});
+const toast = useToast();
 
 const filterData = ref({
   manufacturer: [],
@@ -108,14 +103,20 @@ const filterData = ref({
   price: null,
 });
 
-onMounted(async () => {
+(async () => {
   try {
-    const { data: allItems } = await axios.get<Item[]>('http://localhost:5104/api/Item/GetItems');
-    items.value = allItems;
+    const apiAllItems = axios.get<Item[]>('http://localhost:5104/api/Item/GetItems');
+    const apiItemsInWishList = axios.get<Wish[]>('http://localhost:5104/api/Wish/GetItemsFromWishlist');
+    const [allItems, itemsInWishList] = await Promise.all([apiAllItems, apiItemsInWishList])
+    if (allItems.data && itemsInWishList.data) {
+       const map: Record<number , string> = {};
+       itemsInWishList.data.forEach((product) => map[product.itemId] = product.itemName);
+       items.value = allItems.data.map((item) => map[item.itemId] ? ({ ...item, inWishList: true }) : ({ ...item, inWishList: false }) )
+    }
   } catch (e) {
     console.error(e);
   }
-});
+})();
 
 async function submitFilter(){
   try {
@@ -128,9 +129,44 @@ async function submitFilter(){
       }
     });
     filteredItems.value = response.data;
-    console.log(filteredItems.value);
   } catch (e) {
     console.error(e);
+  }
+}
+
+async function addToCart(itemId: number) {
+    try {
+        const token = JSON.parse(JSON.stringify(localStorage.getItem('token')) || '{}');// Pretpostavljamo da JWT token čuvamo u localStorage
+        await axios.post('http://localhost:5104/api/Cart/AddToCart', { itemId });
+        toast.success('Proizvod dodat u korpu')
+    } catch (error) {
+        if(error instanceof AxiosError)
+        console.log('Greška prilikom dodavanja proizvoda u korpu:', error.response?.data);
+    }
+}
+
+async function addToWishlist(itemId: number) {
+    try {
+        const token = JSON.parse(JSON.stringify(localStorage.getItem('token')) || '{}');// Pretpostavljamo da JWT token čuvamo u localStorage
+        const response = await axios.post('http://localhost:5104/api/Wish/AddToWishlist', { itemId });
+        items.value = items.value.map((item) => item.itemId === itemId ? {...item, inWishList: true} : item);
+        toast.success('Proizvod dodat u listu zelja')
+    } catch (error) {
+        if(error instanceof AxiosError)
+        console.log('Greška prilikom dodavanja proizvoda u listu zelja:', error.response?.data);
+    }
+}
+
+const searchTerm = ref('');
+
+function filterItems() {
+  const search = searchTerm.value.toLowerCase();
+  if (!search) {
+    filteredItems.value = [...items.value];
+  } else {
+    filteredItems.value = items.value.filter(item =>
+      item.name.toLowerCase().includes(search)
+    );
   }
 }
 </script>
