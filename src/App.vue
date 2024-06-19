@@ -6,7 +6,22 @@ import Footer from './components/Footer.vue';
 
 <template>
   <Header />
-  <RouterView />
+    <div class="main-wrapper">
+      <div class="inner-wrapper">
+        <RouterView />
+      </div>
+    </div>
   <Footer />
 </template>
+
+<style scoped>
+
+.main-wrapper {
+  display: flex;
+  flex-grow: 1;
+}
+.inner-wrapper {
+  width: 100%;
+}
+</style>
 

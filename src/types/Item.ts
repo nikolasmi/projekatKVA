@@ -7,4 +7,5 @@ export interface Item {
     dateAdded: Date;
     price: number;
     picturePath: string;
+    inWishList?: boolean;
 }
