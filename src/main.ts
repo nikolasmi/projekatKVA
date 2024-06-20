@@ -6,7 +6,7 @@ import {useRouter} from 'vue-router';
 ;
 import axios from 'axios';
 import { useToast } from 'vue-toast-notification';
-import 'vue-toast-notification/dist/theme-sugar.css'; // Dodajte CSS temu
+import 'vue-toast-notification/dist/theme-sugar.css'; //css tema tokena
 
 import App from './App.vue'
 import router from './router'
@@ -32,6 +32,7 @@ axios.interceptors.response.use((response) => {
 }, (error) => {
     const { status } = error.response
     if(status === 401) {
+        localStorage.removeItem('token');
         const toast = useToast();
         toast.error('Sesija je istekla');
         router.push('/login')

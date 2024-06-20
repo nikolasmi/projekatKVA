@@ -67,12 +67,11 @@ async function removeItem(itemId: number) {
   }
 }
 
-// Izračunavanje ukupnog broja proizvoda
 const totalItems = computed(() => {
   return carts.value.reduce((total, item) => total + item.quantity, 0);
 });
 
-// Izračunavanje ukupne cene
+
 const totalPrice = computed(() => {
   return carts.value.reduce((total, item) => total + (item.itemPrice * item.quantity), 0);
 });

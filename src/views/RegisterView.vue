@@ -40,9 +40,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, useAttrs } from 'vue';
 import axios, { AxiosError } from 'axios';
 import type { User } from '@/types/User';
+import { useToast } from 'vue-toast-notification';
 
 const data = ref({
   name: '',
@@ -54,15 +55,14 @@ const data = ref({
   username: '',
   password: ''
 });
-
+const toast = useToast();
 async function submitForm(){
   try {
     const { data: user } = await axios.post('http://localhost:5104/api/User/AddUser', data.value);
-    console.log(user);
+    toast.success('uspesno registrovan')
   } catch (e) {
   }
 }
-
 
 </script>
 
