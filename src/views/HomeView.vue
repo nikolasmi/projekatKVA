@@ -56,10 +56,6 @@
                     <input type="checkbox" id="sorc" name="proizvod" value="sport" v-model="filterData.type">
                     <label for="sport">Sport</label>
                 </div>
-                <!-- <div>
-                    <input type="checkbox" id="patike" name="proizvod" value="patike" v-model="filterData.type">
-                    <label for="patike">Patike</label>
-                </div> -->
             </div>
             <div class="filter-group">
                 <label for="cena">Cena</label>
@@ -72,9 +68,10 @@
           <div class="product" v-for="item in filteredItems.length ? filteredItems : items" :key="item.itemId">
             <img :src="`/${item.picturePath}`" :alt="`${item.picturePath}`">
             <h2>{{ item.name }}</h2>
-            <p>Opis proizvoda 1</p>
-            <p>Cena: {{ item.price }}</p>
+            <p>{{ item.manufacturer }}</p>
+            <p>Cena: {{ item.price }}$</p>
             <p>Veličina: {{ item.size }}</p>
+            <p>Tip-odece: {{ item.type }}</p>
             <button @click="addToCart(item.itemId)">Kupi</button>
             <button id="wish" @click="addToWishlist(item.itemId)" v-show="!item.inWishList">★</button>
             <button id="wish" @click="addToWishlist(item.itemId)" v-show="item.inWishList">Ukloni iz liste zelja</button>
@@ -129,14 +126,19 @@ async function submitFilter(){
       }
     });
     filteredItems.value = response.data;
-  } catch (e) {
-    console.error(e);
+  } catch (error) {
+    if (error.response && error.response.status === 404) {
+      toast.error('Ne postoji predmet');
+    } else {
+      console.error(error);
+      toast.error('Došlo je do greške prilikom pretrage predmeta');
+    }
   }
 }
 
 async function addToCart(itemId: number) {
     try {
-        const token = JSON.parse(JSON.stringify(localStorage.getItem('token')) || '{}');// Pretpostavljamo da JWT token čuvamo u localStorage
+        const token = JSON.parse(JSON.stringify(localStorage.getItem('token')) || '{}');
         await axios.post('http://localhost:5104/api/Cart/AddToCart', { itemId });
         toast.success('Proizvod dodat u korpu')
     } catch (error) {
@@ -147,7 +149,7 @@ async function addToCart(itemId: number) {
 
 async function addToWishlist(itemId: number) {
     try {
-        const token = JSON.parse(JSON.stringify(localStorage.getItem('token')) || '{}');// Pretpostavljamo da JWT token čuvamo u localStorage
+        const token = JSON.parse(JSON.stringify(localStorage.getItem('token')) || '{}');
         const response = await axios.post('http://localhost:5104/api/Wish/AddToWishlist', { itemId });
         items.value = items.value.map((item) => item.itemId === itemId ? {...item, inWishList: true} : item);
         toast.success('Proizvod dodat u listu zelja')

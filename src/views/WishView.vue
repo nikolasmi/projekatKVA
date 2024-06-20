@@ -14,21 +14,7 @@
                   <button @click="removeItem(item.itemId)" class="remove-btn">Remove</button>
                   <button @click="addToWishlist(item.itemId)" class="add-btn">Dodaj u korpu</button>
               </div>
-              <div class="cart-item">
-                  <div class="item-image">
-                      <img src="https://via.placeholder.com/100" alt="Item 2">
-                  </div>
-                  <div class="item-details">
-                      <h3>Item 2</h3>
-                      <p class="price">Price: $15</p>
-                  </div>
-                  <button  class="remove-btn">Remove</button>
-                  <button class="add-btn">Dodaj u korpu</button>
-              </div>
           </div>
-          <!-- <div class="cart-summary">
-              <button class="checkout-btn">Checkout</button>
-          </div> -->
       </div>
   </div>
 </template>
@@ -62,13 +48,13 @@ try {
 
 async function addToWishlist(itemId: number) {
   try {
-      const token = JSON.parse(JSON.stringify(localStorage.getItem('token')) || '{}');// Pretpostavljamo da JWT token čuvamo u localStorage
+      const token = JSON.parse(JSON.stringify(localStorage.getItem('token')) || '{}');
       const response = await axios.post('http://localhost:5104/api/Cart/AddToCart', { itemId }, {
           headers: {
-              Authorization: `Bearer ${token}` // Dodajemo JWT token u zaglavlje za autorizaciju
+              Authorization: `Bearer ${token}` 
           }
       });
-      console.log('Proizvod dodat u korpu:', response.data);
+      toast.success('proizvod dodat u korpu')
   } catch (error) {
       if(error instanceof AxiosError)
       console.log('Greška prilikom dodavanja proizvoda u korpu:', error.response?.data);
